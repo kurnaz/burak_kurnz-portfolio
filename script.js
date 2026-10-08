@@ -215,5 +215,8 @@ setProfileLink(
   "LINKEDIN_PROFIL_ADRESIN"
 );
 
+document.documentElement.classList.add("js-enabled");
+
+
 
 });
