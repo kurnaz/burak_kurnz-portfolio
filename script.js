@@ -8,9 +8,9 @@
 // Tırnakların arasına kendi bilgilerini yaz.
 
 const CONFIG = {
-  email: "EPOSTA_ADRESIN",
-  instagram: "INSTAGRAM_KULLANICI_ADIN",
-  linkedin: "LINKEDIN_PROFIL_ADRESIN"
+  email: "burakkurnaz758@gmail.com",
+  instagram: "@burak_kurnz",
+  linkedin: "https://www.linkedin.com/in/burak-kurnaz-4797a227b/?isSelfProfile=true"
 };
 
 
@@ -133,7 +133,7 @@ if (
 
 const emailIsConfigured =
   CONFIG.email &&
-  CONFIG.email !== "EPOSTA_ADRESIN" &&
+  CONFIG.email !== "burakkurnaz758@gmail.com" &&
   CONFIG.email.includes("@");
 
 const emailLinks = [
