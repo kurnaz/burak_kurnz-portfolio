@@ -1,152 +1,219 @@
-/* =========================================================
-   BURAK KURNAZ — INTERACTIONS
-   ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+/* =====================================
+   BURAK KURNAZ — CREATIVE INDEX
+   Interactions
+===================================== */
 
-    /* -----------------------------------------------------
-       CUSTOM CURSOR
-    ----------------------------------------------------- */
+// 1. KİŞİSEL BİLGİLER
+// Tırnakların arasına kendi bilgilerini yaz.
 
-    const cursor = document.querySelector(".cursor");
-
-    if (cursor) {
-
-        document.addEventListener("mousemove", (event) => {
-            cursor.style.left = `${event.clientX}px`;
-            cursor.style.top = `${event.clientY}px`;
-        });
-
-        const interactiveElements = document.querySelectorAll(
-            "a, .project, .service, .tags span"
-        );
-
-        interactiveElements.forEach((element) => {
-
-            element.addEventListener("mouseenter", () => {
-                document.body.classList.add("cursor-hover");
-            });
-
-            element.addEventListener("mouseleave", () => {
-                document.body.classList.remove("cursor-hover");
-            });
-
-        });
-    }
+const CONFIG = {
+  email: "EPOSTA_ADRESIN",
+  instagram: "INSTAGRAM_KULLANICI_ADIN",
+  linkedin: "LINKEDIN_PROFIL_ADRESIN"
+};
 
 
-    /* -----------------------------------------------------
-       SCROLL REVEAL
-    ----------------------------------------------------- */
+// 2. FOOTER YILI
 
-    const revealElements = document.querySelectorAll(
-        ".section-number, .about-grid, .work-header, .project, .service, .currently h2, .tags, .contact h2, .contact-links"
+const yearElement = document.getElementById("year");
+
+if (yearElement) {
+  yearElement.textContent = new Date().getFullYear();
+}
+
+
+// 3. TÜRKİYE SAATİ
+
+const clockElement = document.getElementById("clock");
+
+function updateClock() {
+  if (!clockElement) return;
+
+  clockElement.textContent = new Intl.DateTimeFormat("tr-TR", {
+    timeZone: "Europe/Istanbul",
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(new Date());
+}
+
+updateClock();
+setInterval(updateClock, 30000);
+
+
+// 4. MOBİL MENÜ
+
+const menuToggle = document.querySelector(".menu-toggle");
+const navigation = document.querySelector(".navigation");
+
+function closeMenu() {
+  if (!menuToggle || !navigation) return;
+
+  menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.setAttribute("aria-label", "Menüyü aç");
+  navigation.classList.remove("open");
+  document.body.classList.remove("menu-open");
+}
+
+if (menuToggle && navigation) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen =
+      menuToggle.getAttribute("aria-expanded") === "true";
+
+    menuToggle.setAttribute(
+      "aria-expanded",
+      String(!isOpen)
     );
 
-    const observer = new IntersectionObserver(
-        (entries) => {
+    menuToggle.setAttribute(
+      "aria-label",
+      isOpen ? "Menüyü aç" : "Menüyü kapat"
+    );
 
-            entries.forEach((entry) => {
+    navigation.classList.toggle("open", !isOpen);
+    document.body.classList.toggle("menu-open", !isOpen);
+  });
 
-                if (entry.isIntersecting) {
+  navigation.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
 
-                    entry.target.classList.add("is-visible");
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenu();
+    }
+  });
 
-                    observer.unobserve(entry.target);
-                }
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 600) {
+      closeMenu();
+    }
+  });
+}
 
-            });
 
-        },
-        {
-            threshold: 0.12
+// 5. SCROLL REVEAL ANİMASYONLARI
+
+const revealElements = document.querySelectorAll(".reveal");
+
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
+if (
+  prefersReducedMotion ||
+  !("IntersectionObserver" in window)
+) {
+  revealElements.forEach((element) => {
+    element.classList.add("visible");
+  });
+} else {
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
         }
-    );
-
-    revealElements.forEach((element) => {
-        element.classList.add("reveal");
-        observer.observe(element);
-    });
-
-
-    /* -----------------------------------------------------
-       SMOOTH ANCHOR LINKS
-    ----------------------------------------------------- */
-
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-
-        link.addEventListener("click", (event) => {
-
-            const targetId = link.getAttribute("href");
-
-            if (targetId === "#") return;
-
-            const target = document.querySelector(targetId);
-
-            if (!target) return;
-
-            event.preventDefault();
-
-            target.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-
-        });
-
-    });
-
-
-    /* -----------------------------------------------------
-       PROJECT NUMBER PARALLAX
-    ----------------------------------------------------- */
-
-    const projects = document.querySelectorAll(".project");
-
-    projects.forEach((project) => {
-
-        const number = project.querySelector(".project-visual span");
-
-        if (!number) return;
-
-        project.addEventListener("mousemove", (event) => {
-
-            const rect = project.getBoundingClientRect();
-
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-
-            const moveX = (x / rect.width - 0.5) * 20;
-            const moveY = (y / rect.height - 0.5) * 20;
-
-            number.style.transform =
-                `translate(${moveX}px, ${moveY}px)`;
-
-        });
-
-        project.addEventListener("mouseleave", () => {
-
-            number.style.transform =
-                "translate(0, 0)";
-
-        });
-
-    });
-
-
-    /* -----------------------------------------------------
-       CURRENT YEAR
-    ----------------------------------------------------- */
-
-    const footerYear = document.querySelector("footer");
-
-    if (footerYear) {
-
-        const yearText = footerYear.innerHTML;
-
-        footerYear.innerHTML =
-            yearText.replace("2026", new Date().getFullYear());
-
+      });
+    },
+    {
+      threshold: 0.12,
+      rootMargin: "0px 0px -35px 0px"
     }
+  );
+
+  revealElements.forEach((element) => {
+    revealObserver.observe(element);
+  });
+}
+
+
+// 6. E-POSTA BAĞLANTILARI
+
+const emailIsConfigured =
+  CONFIG.email &&
+  CONFIG.email !== "EPOSTA_ADRESIN" &&
+  CONFIG.email.includes("@");
+
+const emailLinks = [
+  document.getElementById("email-link"),
+  document.getElementById("email-text")
+].filter(Boolean);
+
+emailLinks.forEach((link) => {
+  if (emailIsConfigured) {
+    link.href = `mailto:${CONFIG.email}`;
+  } else {
+    link.href = "#contact";
+  }
+});
+
+
+// 7. SOSYAL MEDYA BAĞLANTILARI
+
+function setProfileLink(elementId, baseUrl, username, placeholder) {
+  const link = document.getElementById(elementId);
+
+  if (!link) return;
+
+  const value = (username || "").trim();
+
+  if (!value || value === placeholder) {
+    // Örnek bağlantıların yanlışlıkla kullanılmasını önle.
+    link.hidden = true;
+    return;
+  }
+
+  let url;
+
+  if (/^https?:\/\//i.test(value)) {
+    url = value;
+  } else {
+    const cleanValue = value.replace(/^@/, "");
+
+    if (
+      !cleanValue ||
+      /[/?#\s]/.test(cleanValue)
+    ) {
+      link.hidden = true;
+      return;
+    }
+
+    url = baseUrl + cleanValue;
+  }
+
+  try {
+    const parsedUrl = new URL(url);
+
+    if (
+      parsedUrl.protocol !== "https:" ||
+      parsedUrl.hostname !== new URL(baseUrl).hostname
+    ) {
+      link.hidden = true;
+      return;
+    }
+
+    link.href = parsedUrl.href;
+    link.hidden = false;
+  } catch {
+    link.hidden = true;
+  }
+}
+
+setProfileLink(
+  "instagram-link",
+  "https://www.instagram.com/",
+  CONFIG.instagram,
+  "INSTAGRAM_KULLANICI_ADIN"
+);
+
+setProfileLink(
+  "linkedin-link",
+  "https://www.linkedin.com/",
+  CONFIG.linkedin,
+  "LINKEDIN_PROFIL_ADRESIN"
+);
+
 
 });
