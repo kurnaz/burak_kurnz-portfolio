@@ -925,4 +925,28 @@ a:focus-visible {
     opacity: 1;
     transform: none;
   }
+   
+/* Acil görünürlük düzeltmesi */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.js-enabled .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+.js-enabled .reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-enabled .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 }
