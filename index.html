@@ -1,48 +1,355 @@
-
-
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#f2f0e9">
-
   <meta name="description" content="Burak Kurnaz — Tasarım, marka, müzik ve yaratıcı fikirler.">
-
   <title>Burak Kurnaz® — Creative Index</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <style>
+    :root {
+      --paper:#f2f0e9;
+      --ink:#171715;
+      --muted:#77766f;
+      --line:#c9c7bf;
+      --acid:#d6ff38;
+      --display:"Space Grotesk",sans-serif;
+      --mono:"DM Mono",monospace;
+      --pad:clamp(20px,5.2vw,84px);
+    }
+
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:85px; }
+    body {
+      margin:0; background:var(--paper); color:var(--ink);
+      font-family:var(--display); -webkit-font-smoothing:antialiased;
+    }
+    body.menu-open { overflow:hidden; }
+    ::selection { background:var(--acid); color:var(--ink); }
+    a { color:inherit; text-decoration:none; }
+    button,input { font:inherit; }
+    a:focus-visible,button:focus-visible {
+      outline:2px solid currentColor; outline-offset:5px;
+    }
+    [hidden] { display:none !important; }
+    .page-pad { padding-left:var(--pad); padding-right:var(--pad); }
+    .section-pad { padding-top:clamp(80px,12vw,165px); padding-bottom:clamp(80px,12vw,165px); }
+    .mono {
+      font-family:var(--mono); font-size:10px; line-height:1.7;
+      letter-spacing:.035em; text-transform:uppercase;
+    }
+
+    /* HEADER */
+    .topbar {
+      position:relative; z-index:20; width:100%; min-height:72px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:28px; padding:0 var(--pad); border-bottom:1px solid var(--ink);
+    }
+    .logo { font-size:25px; font-weight:700; letter-spacing:-.12em; }
+    .logo span { font-size:11px; vertical-align:top; margin-left:3px; }
+    .navigation { display:flex; align-items:center; gap:clamp(14px,2vw,30px); }
+    .navigation a {
+      font-family:var(--mono); font-size:10px; text-transform:uppercase;
+      white-space:nowrap; transition:opacity .2s;
+    }
+    .navigation a:hover { opacity:.5; }
+    .navigation sup { margin-left:3px; font-size:8px; color:var(--muted); }
+    .top-note { display:flex; align-items:center; gap:8px; white-space:nowrap; }
+    .status-dot { width:7px; height:7px; background:var(--ink); border-radius:50%; animation:blink 2.5s infinite; }
+    .menu-toggle {
+      display:none; background:none; border:0; padding:10px;
+      cursor:pointer; color:var(--ink);
+    }
+
+    /* HERO */
+    .hero { padding-top:clamp(28px,5vw,65px); }
+    .hero-meta { display:flex; justify-content:space-between; gap:20px; color:var(--muted); }
+    .hero-kicker { font-size:clamp(17px,2vw,25px); letter-spacing:-.055em; margin:clamp(65px,10vw,140px) 0 30px; }
+    .hero-title {
+      margin:0 0 45px -.065em; font-size:clamp(66px,15.4vw,230px);
+      font-weight:700; line-height:.76; letter-spacing:-.115em;
+    }
+    .hero-title>span { display:block; }
+    .hero-title-bottom { text-align:right; white-space:nowrap; }
+    .registered { display:inline-block; vertical-align:top; font-size:.13em; letter-spacing:0; margin:.15em 0 0 .12em; }
+    .hero-footer {
+      display:grid; grid-template-columns:1.25fr .75fr; gap:50px;
+      align-items:end; padding:35px 0 60px; border-top:1px solid var(--ink);
+    }
+    .hero-statement { max-width:760px; font-size:clamp(28px,5.1vw,72px); line-height:1.04; letter-spacing:-.085em; margin:0; }
+    .underlined { text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:.11em; }
+    .hero-description { max-width:350px; justify-self:end; }
+    .hero-description>.mono { color:var(--muted); }
+    .hero-description p { font-size:14px; line-height:1.8; margin:14px 0 24px; }
+    .text-link { display:inline-flex; align-items:center; gap:20px; border-bottom:1px solid var(--ink); padding-bottom:7px; font-size:12px; }
+    .text-link span { transition:transform .2s; }
+    .text-link:hover span { transform:translate(3px,3px); }
+    .hero-bottom-line { display:flex; justify-content:space-between; gap:20px; padding:17px 0; border-block:1px solid var(--ink); }
+
+    /* SECTION HEADINGS */
+    .section-heading { display:flex; align-items:end; justify-content:space-between; gap:30px; margin-bottom:clamp(45px,7vw,95px); }
+    .section-number { display:block; color:var(--muted); margin-bottom:22px; }
+    .section-heading h2 { font-size:clamp(60px,10.5vw,145px); font-weight:600; line-height:.79; letter-spacing:-.105em; margin:0 0 12px -.055em; }
+    .period { color:#aaa9a2; }
+    .section-aside { font-size:12px; line-height:1.8; color:var(--muted); margin:0 0 7px; }
+
+    /* PROJECTS */
+    .project { border-top:1px solid var(--line); padding:30px 0 38px; }
+    .project:last-child { border-bottom:1px solid var(--line); }
+    .project-art {
+      min-height:clamp(270px,52vw,680px); position:relative; isolation:isolate;
+      display:flex; align-items:center; justify-content:center; overflow:hidden;
+      padding:35px; background:var(--ink); color:var(--paper);
+    }
+    .art-label,.art-bottom { position:absolute; z-index:3; font-size:9px; }
+    .art-label { top:23px; left:24px; }
+    .art-bottom { left:24px; bottom:23px; }
+    .art-arrow {
+      position:absolute; right:22px; bottom:19px; width:40px; height:40px;
+      display:grid; place-items:center; border:1px solid currentColor;
+      border-radius:50%; font-size:20px; transition:.25s;
+    }
+    .project-art:hover .art-arrow { background:var(--paper); color:var(--ink); transform:rotate(45deg); }
+    .project-art>* { pointer-events:none; }
+    .luvisyu-word { font-size:clamp(62px,13.5vw,190px); line-height:.8; letter-spacing:-.105em; font-weight:700; transition:transform .45s; }
+    .luvisyu-word span,.floido-word span { font-size:.14em; vertical-align:top; letter-spacing:0; margin-left:.1em; }
+    .art-luvisyu:hover .luvisyu-word { transform:scale(1.04) rotate(-3deg); }
+    .art-floido { background:#e1dfd7; color:var(--ink); }
+    .floido-word { z-index:2; font-size:clamp(58px,12vw,170px); font-weight:700; letter-spacing:-.12em; transition:transform .4s; }
+    .floido-symbol { position:absolute; font-size:clamp(150px,30vw,400px); line-height:1; color:#cbc8bf; transition:transform .6s; }
+    .art-floido:hover .floido-symbol { transform:rotate(35deg) scale(1.12); }
+    .art-floido:hover .floido-word { transform:translateY(-5px); }
+    .floido-caption { position:absolute; right:25px; top:25px; font-size:9px; }
+    .art-lab { background:var(--acid); color:var(--ink); }
+    .lab-word { z-index:2; font-size:clamp(80px,15vw,210px); font-weight:700; line-height:.73; letter-spacing:-.12em; text-align:center; transform:rotate(-6deg); transition:transform .4s; }
+    .lab-word>span { font-size:.55em; }
+    .lab-circle { position:absolute; width:clamp(150px,30vw,390px); aspect-ratio:1; border:1px solid rgba(23,23,21,.35); border-radius:50%; transition:transform .6s; }
+    .circle-one { transform:translate(-22%,-12%); }
+    .circle-two { transform:translate(22%,12%); }
+    .lab-cross { position:absolute; font-size:clamp(120px,25vw,320px); font-weight:400; color:rgba(23,23,21,.12); }
+    .art-lab:hover .lab-word { transform:rotate(0) scale(1.04); }
+    .art-lab:hover .circle-one { transform:translate(-28%,-17%) rotate(25deg); }
+    .art-lab:hover .circle-two { transform:translate(28%,17%) rotate(-25deg); }
+    .project-details { display:flex; justify-content:space-between; align-items:end; gap:30px; padding-top:26px; }
+    .project-category { color:var(--muted); font-size:9px; }
+    .project-details h3 { font-size:clamp(32px,5vw,65px); font-weight:600; line-height:1; letter-spacing:-.085em; margin:13px 0; }
+    .project-details p { max-width:460px; font-size:14px; line-height:1.85; color:#65645e; margin:0; }
+    .project-year { flex-shrink:0; color:var(--muted); font-size:9px; padding-bottom:4px; }
+
+    /* ABOUT */
+    .about { background:var(--ink); color:var(--paper); }
+    .about .section-number { color:#aaa9a2; }
+    .about .period { color:#77766f; }
+    .about-layout { display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(35px,8vw,120px); }
+    .about-big { max-width:750px; font-size:clamp(38px,6.5vw,88px); line-height:.98; letter-spacing:-.085em; margin:0; }
+    .about-big span { display:block; color:#85847d; margin-top:12px; }
+    .about-copy { max-width:450px; justify-self:end; font-size:14px; line-height:1.9; color:#c1bfb7; }
+    .about-copy p:first-child { margin-top:0; }
+    .about-copy p { margin:0 0 20px; }
+    .interest-list { display:flex; flex-direction:column; margin-top:38px; border-top:1px solid #454541; }
+    .interest-list span { padding:11px 0; border-bottom:1px solid #454541; font-family:var(--mono); font-size:9px; letter-spacing:.05em; }
+    .about-bottom { display:flex; justify-content:space-between; gap:20px; padding-top:70px; color:#85847d; }
+
+    /* GALLERY */
+    .gallery-filters { display:flex; flex-wrap:wrap; gap:9px; margin:-35px 0 35px; }
+    .filter-btn {
+      background:transparent; border:1px solid var(--line); border-radius:99px;
+      padding:10px 15px; font-family:var(--mono); font-size:9px;
+      text-transform:uppercase; cursor:pointer; transition:background .2s,color .2s,border .2s;
+    }
+    .filter-btn:hover,.filter-btn.active { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+    .gallery-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:36px 22px; }
+    .gallery-item { min-width:0; }
+    .gallery-art {
+      position:relative; min-height:clamp(220px,32vw,440px); overflow:hidden;
+      display:flex; align-items:center; justify-content:center;
+      padding:25px; isolation:isolate;
+    }
+    .gallery-art .art-label { top:17px; left:17px; }
+    .gallery-art .art-bottom { left:17px; bottom:17px; }
+    .gallery-art .art-label,.gallery-art .art-bottom { font-size:8px; }
+    .gallery-art .art-arrow { width:32px; height:32px; right:15px; bottom:13px; font-size:16px; }
+    .gallery-art>* { pointer-events:none; }
+    .gallery-art .gallery-big-type { font-size:clamp(48px,8vw,112px); line-height:.82; font-weight:700; letter-spacing:-.12em; text-align:center; transition:transform .4s; }
+    .gallery-item:hover .gallery-big-type { transform:scale(1.05) rotate(-2deg); }
+    .gallery-art.poster { background:var(--acid); color:var(--ink); }
+    .gallery-art.type { background:#dfdcd3; color:var(--ink); }
+    .gallery-art.photo { background:#242421; color:var(--paper); }
+    .gallery-art.photo::before { content:""; position:absolute; width:65%; aspect-ratio:1; border:1px solid #77766f; border-radius:50%; transform:rotate(-25deg); box-shadow:0 0 0 22px #242421,0 0 0 23px #77766f,0 0 0 52px #242421,0 0 0 53px #77766f; }
+    .gallery-art.photo .gallery-big-type { z-index:2; font-size:clamp(38px,6vw,78px); }
+    .gallery-art.collage { background:#d3d0c7; color:var(--ink); }
+    .gallery-art.collage::before,.gallery-art.collage::after { content:""; position:absolute; width:42%; height:65%; background:var(--ink); transform:rotate(12deg); }
+    .gallery-art.collage::after { background:var(--acid); transform:rotate(-14deg); }
+    .gallery-art.collage .gallery-big-type { z-index:2; }
+    .gallery-caption { display:flex; justify-content:space-between; gap:15px; padding-top:13px; }
+    .gallery-caption strong { font-size:17px; font-weight:500; letter-spacing:-.04em; }
+    .gallery-caption span { color:var(--muted); font-family:var(--mono); font-size:9px; text-transform:uppercase; }
+    .gallery-note { margin-top:35px; padding-top:16px; border-top:1px solid var(--line); color:var(--muted); }
+
+    /* JOURNAL */
+    .journal-list { border-top:1px solid var(--line); }
+    .journal-entry { border-bottom:1px solid var(--line); }
+    .journal-summary {
+      display:grid; grid-template-columns:100px 1fr 35px; gap:25px;
+      align-items:center; padding:28px 0; cursor:pointer; list-style:none;
+    }
+    .journal-summary::-webkit-details-marker { display:none; }
+    .journal-date { color:var(--muted); font-family:var(--mono); font-size:9px; text-transform:uppercase; }
+    .journal-title { font-size:clamp(23px,3.6vw,44px); line-height:1.08; letter-spacing:-.07em; }
+    .journal-meta { display:block; margin-top:10px; color:var(--muted); font-family:var(--mono); font-size:9px; text-transform:uppercase; }
+    .journal-plus { font-size:27px; font-weight:300; text-align:right; transition:transform .25s; }
+    .journal-entry[open] .journal-plus { transform:rotate(45deg); }
+    .journal-body { max-width:720px; margin:0 0 35px 125px; color:#55544f; font-size:14px; line-height:1.9; }
+    .journal-body p:first-child { margin-top:0; }
+    .journal-body p:last-child { margin-bottom:0; }
+    .journal-footnote { color:var(--muted); font-family:var(--mono); font-size:9px; text-transform:uppercase; margin-top:30px; }
+
+    /* SOUNDS */
+    .sounds-intro { max-width:690px; font-size:clamp(24px,4vw,48px); line-height:1.08; letter-spacing:-.07em; margin:0 0 50px; }
+    .sounds-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; }
+    .sound-card { display:flex; flex-direction:column; min-height:280px; padding:22px; border:1px solid var(--line); transition:background .25s,color .25s; }
+    .sound-card:hover { background:var(--ink); color:var(--paper); }
+    .sound-top { display:flex; justify-content:space-between; gap:12px; color:var(--muted); }
+    .sound-card:hover .sound-top { color:#b7b5ac; }
+    .sound-art { display:grid; place-items:center; flex:1; min-height:125px; margin:25px 0; background:#dfdcd3; color:var(--ink); overflow:hidden; }
+    .sound-art span { font-size:clamp(42px,7vw,86px); font-weight:700; line-height:1; letter-spacing:-.12em; }
+    .sound-card:nth-child(2) .sound-art { background:var(--acid); }
+    .sound-card:nth-child(3) .sound-art { background:var(--ink); color:var(--paper); }
+    .sound-card h3 { font-size:22px; letter-spacing:-.06em; margin:0 0 9px; }
+    .sound-card p { color:#65645e; font-size:12px; line-height:1.7; margin:0; }
+    .sound-card:hover p { color:#c1bfb7; }
+    .sound-link { display:inline-block; align-self:flex-start; margin-top:18px; padding-bottom:5px; border-bottom:1px solid currentColor; font-family:var(--mono); font-size:9px; text-transform:uppercase; }
+    .sounds-bottom { display:flex; justify-content:space-between; gap:20px; margin-top:25px; padding-top:15px; border-top:1px solid var(--line); color:var(--muted); }
+
+    /* CONTACT */
+    .contact-intro { font-size:clamp(25px,4vw,48px); line-height:1.1; letter-spacing:-.07em; margin:50px 0 35px; }
+    .contact-main { display:block; position:relative; width:100%; padding-bottom:38px; border-bottom:1px solid var(--ink); font-size:clamp(65px,14.8vw,210px); font-weight:700; line-height:.78; letter-spacing:-.115em; transition:opacity .2s; }
+    .contact-main>span:nth-child(2) { display:block; text-align:right; }
+    .contact-main:hover { opacity:.68; }
+    .contact-arrow { position:absolute; right:0; top:5%; font-size:.25em; letter-spacing:0; }
+    .contact-bottom { display:flex; justify-content:space-between; align-items:start; gap:25px; padding-top:22px; }
+    .contact-bottom>p { color:var(--muted); margin:0; }
+    .social-links { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:12px 25px; }
+    .social-links a { font-family:var(--mono); font-size:10px; border-bottom:1px solid var(--line); padding-bottom:5px; }
+    .social-links a:hover { border-color:var(--ink); }
+
+    /* FOOTER */
+    .footer { min-height:80px; display:flex; align-items:center; justify-content:space-between; gap:18px; border-top:1px solid var(--ink); color:var(--muted); }
+    .footer-logo { font-family:var(--display); font-size:20px; font-weight:700; letter-spacing:-.1em; color:var(--ink); }
+
+    /* REVEAL: JS çalışmazsa içerik gizli kalmaz */
+    .reveal { opacity:1; transform:none; }
+    .js-enabled .reveal { opacity:0; transform:translateY(22px); transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1); }
+    .js-enabled .reveal.visible { opacity:1; transform:translateY(0); }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+    @media (max-width:1050px) {
+      .top-note { display:none; }
+      .navigation { gap:16px; }
+      .navigation a { font-size:9px; }
+    }
+    @media (max-width:850px) {
+      .hero-footer { grid-template-columns:1fr; gap:35px; }
+      .hero-description { justify-self:start; max-width:460px; }
+      .about-layout { grid-template-columns:1fr; gap:45px; }
+      .about-copy { justify-self:start; }
+      .contact-bottom { flex-direction:column; }
+      .social-links { justify-content:flex-start; }
+      .sounds-grid { grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width:700px) {
+      :root { --pad:20px; }
+      .topbar { min-height:65px; flex-wrap:wrap; }
+      .menu-toggle { display:flex; flex-direction:column; gap:6px; margin-left:auto; }
+      .menu-toggle span { display:block; width:23px; height:1px; background:var(--ink); transition:transform .2s; }
+      .menu-toggle[aria-expanded="true"] span:first-child { transform:translateY(3.5px) rotate(45deg); }
+      .menu-toggle[aria-expanded="true"] span:last-child { transform:translateY(-3.5px) rotate(-45deg); }
+      .navigation { display:none; width:100%; flex-direction:column; align-items:stretch; gap:0; padding:10px 0 20px; }
+      .navigation.open { display:flex; }
+      .navigation a { padding:14px 0; border-bottom:1px solid var(--line); font-size:11px; }
+      .navigation sup { float:right; }
+      .hero { padding-top:25px; }
+      .hero-meta { font-size:8px; }
+      .hero-kicker { margin-top:80px; margin-bottom:28px; }
+      .hero-title { font-size:clamp(60px,15.1vw,92px); margin-bottom:35px; }
+      .hero-footer { padding:28px 0 40px; gap:32px; }
+      .hero-bottom-line { flex-wrap:wrap; font-size:8px; }
+      .hero-bottom-line span:last-child { width:100%; }
+      .section-pad { padding-top:85px; padding-bottom:85px; }
+      .section-heading { margin-bottom:45px; }
+      .section-heading h2 { font-size:clamp(58px,13vw,85px); }
+      .section-aside { font-size:10px; }
+      .project { padding:18px 0 27px; }
+      .project-art { min-height:270px; padding:20px; }
+      .art-label { top:16px; left:16px; }
+      .art-bottom { left:16px; bottom:16px; }
+      .project-details { flex-direction:column; align-items:flex-start; gap:18px; }
+      .project-details h3 { font-size:39px; }
+      .project-details p { font-size:13px; }
+      .about-big { font-size:clamp(39px,10vw,60px); }
+      .about-bottom { padding-top:45px; }
+      .gallery-filters { margin-top:-25px; }
+      .gallery-grid { gap:27px 12px; }
+      .gallery-art { min-height:230px; padding:15px; }
+      .gallery-caption { flex-direction:column; gap:5px; }
+      .gallery-caption strong { font-size:15px; }
+      .journal-summary { grid-template-columns:1fr 25px; gap:12px; padding:23px 0; }
+      .journal-date { grid-column:1/-1; }
+      .journal-title { font-size:25px; }
+      .journal-plus { grid-column:2; grid-row:2; }
+      .journal-body { margin-left:0; font-size:13px; }
+      .sounds-grid { grid-template-columns:1fr; }
+      .sound-card { min-height:260px; }
+      .sounds-intro { margin-bottom:35px; }
+      .sounds-bottom { flex-direction:column; gap:8px; }
+      .contact-intro { margin-top:35px; }
+      .contact-main { font-size:clamp(58px,14.3vw,86px); padding-bottom:28px; }
+      .contact-arrow { top:0; }
+      .footer { padding-top:23px; padding-bottom:23px; display:grid; grid-template-columns:1fr 1fr; font-size:8px; }
+      .footer>*:nth-child(even) { text-align:right; }
+    }
+    @media (max-width:380px) {
+      .gallery-grid { grid-template-columns:1fr; }
+      .gallery-art { min-height:270px; }
+      .section-aside { display:none; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
+      .reveal,.js-enabled .reveal { opacity:1; transform:none; }
+    }
+  </style>
 </head>
 
 <body>
   <header class="topbar">
-    <a href="#home" class="logo">BK<span>®</span></a>
+    <a href="#home" class="logo" aria-label="Burak Kurnaz ana sayfa">BK<span>®</span></a>
 
-    <button class="menu-toggle" aria-label="Menüyü aç"
-      aria-expanded="false" aria-controls="navigation">
-      <span></span>
-      <span></span>
+    <button class="menu-toggle" aria-label="Menüyü aç" aria-expanded="false" aria-controls="navigation">
+      <span></span><span></span>
     </button>
 
-    <nav class="navigation" id="navigation">
+    <nav class="navigation" id="navigation" aria-label="Ana menü">
       <a href="#projects">İşler <sup>01</sup></a>
       <a href="#about">Hakkımda <sup>02</sup></a>
-      <a href="#contact">İletişim <sup>03</sup></a>
+      <a href="#gallery">Gallery <sup>03</sup></a>
+      <a href="#journal">Journal <sup>04</sup></a>
+      <a href="#sounds">Sounds <sup>05</sup></a>
+      <a href="#contact">İletişim <sup>06</sup></a>
     </nav>
 
-    <span class="top-note mono">
-      <span class="status-dot"></span> INDEPENDENT CREATIVE
-    </span>
+    <span class="top-note mono"><span class="status-dot"></span> INDEPENDENT CREATIVE</span>
   </header>
 
   <main id="home">
 
-    <!-- HERO -->
+    <!-- HOME -->
     <section class="hero page-pad">
       <div class="hero-meta mono">
         <span>PERSONAL INDEX / 2026</span>
@@ -58,19 +365,13 @@
 
       <div class="hero-footer">
         <p class="hero-statement reveal">
-          Fikirler, görseller ve
-          <span class="underlined">başka türlü düşünmek.</span>
+          Fikirler, görseller ve <span class="underlined">başka türlü düşünmek.</span>
         </p>
 
         <div class="hero-description reveal">
           <span class="mono">NE YAPIYORUM?</span>
-          <p>
-            Tasarım, marka, dijital kültür ve müzik arasında
-            kendime ait bir alan oluşturmaya çalışıyorum.
-          </p>
-          <a href="#projects" class="text-link">
-            İşlerime göz at <span>↘</span>
-          </a>
+          <p>Tasarım, marka, dijital kültür ve müzik arasında kendime ait bir alan oluşturmaya çalışıyorum.</p>
+          <a href="#projects" class="text-link">İşlerime göz at <span>↘</span></a>
         </div>
       </div>
 
@@ -81,74 +382,54 @@
       </div>
     </section>
 
-    <!-- PROJECTS -->
+    <!-- SELECTED WORKS -->
     <section class="projects page-pad section-pad" id="projects">
       <div class="section-heading reveal">
         <div>
           <span class="mono section-number">01 / SELECTED WORK</span>
           <h2>Seçilmiş<br>işler<span class="period">.</span></h2>
         </div>
-        <p class="section-aside">
-          Bazıları devam ediyor.<br>
-          Bazıları henüz bir fikir.
-        </p>
+        <p class="section-aside">Bazıları devam ediyor.<br>Bazıları henüz bir fikir.</p>
       </div>
 
       <div class="project-list">
-
         <article class="project reveal">
-          <a class="project-art art-luvisyu"
-             href="https://luvisyu.com"
-             target="_blank" rel="noopener noreferrer"
-             aria-label="Luvisyu projesini incele">
+          <a class="project-art art-luvisyu" href="https://luvisyu.com" target="_blank" rel="noopener noreferrer" aria-label="Luvisyu projesini incele">
             <span class="art-label mono">BRAND / 001</span>
             <span class="luvisyu-word">luvisyu<span>®</span></span>
             <span class="art-bottom mono">MADE FOR YOURSELF</span>
             <span class="art-arrow">↗</span>
           </a>
-
           <div class="project-details">
             <div>
               <span class="mono project-category">01 — BRAND & E-COMMERCE</span>
               <h3>Luvisyu</h3>
-              <p>
-                Bir e-ticaret markasının dijital dünyasını,
-                görsel kimliğini ve müşteri deneyimini
-                geliştirme yolculuğu.
-              </p>
+              <p>Bir e-ticaret markasının dijital dünyasını, görsel kimliğini ve müşteri deneyimini geliştirme yolculuğu.</p>
             </div>
             <span class="project-year mono">2026 — DEVAM EDİYOR</span>
           </div>
         </article>
 
         <article class="project reveal">
-          <a class="project-art art-floido"
-             href="#contact"
-             aria-label="Floido projesi hakkında iletişim">
+          <a class="project-art art-floido" href="#contact" aria-label="Floido projesi hakkında iletişim">
             <span class="art-label mono">CREATIVE STUDIO / 002</span>
             <span class="floido-symbol" aria-hidden="true">✳</span>
             <span class="floido-word">FLOIDO<span>®</span></span>
             <span class="floido-caption mono">ART × SOUND × IDEAS</span>
             <span class="art-arrow">↗</span>
           </a>
-
           <div class="project-details">
             <div>
               <span class="mono project-category">02 — CREATIVE DIRECTION</span>
               <h3>Floido</h3>
-              <p>
-                Görsel tasarım, müzik üretimi ve pazarlamayı
-                aynı yaratıcı çatı altında buluşturma fikri.
-              </p>
+              <p>Görsel tasarım, müzik üretimi ve pazarlamayı aynı yaratıcı çatı altında buluşturma fikri.</p>
             </div>
             <span class="project-year mono">IN DEVELOPMENT</span>
           </div>
         </article>
 
         <article class="project reveal">
-          <a class="project-art art-lab"
-             href="#contact"
-             aria-label="Deneysel fikirler hakkında iletişim">
+          <a class="project-art art-lab" href="#contact" aria-label="Deneysel fikirler hakkında iletişim">
             <span class="art-label mono">OPEN EXPERIMENT / 003</span>
             <span class="lab-circle circle-one"></span>
             <span class="lab-circle circle-two"></span>
@@ -157,20 +438,15 @@
             <span class="art-bottom mono">IDEAS IN PROGRESS</span>
             <span class="art-arrow">↗</span>
           </a>
-
           <div class="project-details">
             <div>
               <span class="mono project-category">03 — EXPERIMENTS</span>
-              <h3>Fikir laboratuvarı</h3>
-              <p>
-                Dijital iletişim, yeni medya, yapay zekâ ve
-                hayata geçirilmeyi bekleyen fikirler.
-              </p>
+              <h3>Fikirler ve projeler</h3>
+              <p>Dijital iletişim, yeni medya, yapay zekâ ve hayata geçirilmeyi bekleyen fikirler.</p>
             </div>
             <span class="project-year mono">ONGOING</span>
           </div>
         </article>
-
       </div>
     </section>
 
@@ -184,26 +460,12 @@
       </div>
 
       <div class="about-layout">
-        <p class="about-big reveal">
-          Her şeyin başka bir yolu olabilir.
-          <span>Ben o yolu aramayı seviyorum.</span>
-        </p>
+        <p class="about-big reveal">Her şeyin başka bir yolu olabilir.<span>Ben o yolu aramayı seviyorum.</span></p>
 
         <div class="about-copy reveal">
-          <p>
-            Ben Burak. Markalar, görseller, müzik ve
-            insanlarla fikirler arasındaki ilişki ilgimi çekiyor.
-          </p>
-          <p>
-            Bir şeyin sadece nasıl göründüğünü değil,
-            nasıl hissettirdiğini ve neden var olduğunu
-            da önemsiyorum.
-          </p>
-          <p>
-            Bu site bitmiş bir başarı hikâyesi değil.
-            Ürettiklerimin, öğrendiklerimin ve denemeye
-            değer bulduğum şeylerin kişisel arşivi.
-          </p>
+          <p>Ben Burak. Markalar, görseller, müzik ve insanlarla fikirler arasındaki ilişki ilgimi çekiyor.</p>
+          <p>Bir şeyin sadece nasıl göründüğünü değil, nasıl hissettirdiğini ve neden var olduğunu da önemsiyorum.</p>
+          <p>Bu site bitmiş bir başarı hikâyesi değil. Ürettiklerimin, öğrendiklerimin ve denemeye değer bulduğum şeylerin kişisel arşivi.</p>
 
           <div class="interest-list">
             <span>01 / BRANDING</span>
@@ -221,38 +483,177 @@
       </div>
     </section>
 
+    <!-- GALLERY -->
+    <section class="page-pad section-pad" id="gallery">
+      <div class="section-heading reveal">
+        <div>
+          <span class="mono section-number">03 / VISUAL ARCHIVE</span>
+          <h2>Gallery<span class="period">.</span></h2>
+        </div>
+        <p class="section-aside">Görseller, biçimler<br>ve görsel deneyler.</p>
+      </div>
+
+      <div class="gallery-filters reveal" role="group" aria-label="Galeri kategorileri">
+        <button class="filter-btn active" type="button" data-filter="all" aria-pressed="true">Tümü</button>
+        <button class="filter-btn" type="button" data-filter="design" aria-pressed="false">Design</button>
+        <button class="filter-btn" type="button" data-filter="type" aria-pressed="false">Typography</button>
+        <button class="filter-btn" type="button" data-filter="experiments" aria-pressed="false">Experiments</button>
+      </div>
+
+      <div class="gallery-grid">
+        <article class="gallery-item reveal" data-category="design">
+          <div class="gallery-art poster">
+            <span class="art-label mono">VISUAL STUDY / 001</span>
+            <span class="gallery-big-type">FORM<br>FOLLOWS<br>FEELING.</span>
+            <span class="art-bottom mono">DESIGN EXPLORATION</span>
+          </div>
+          <div class="gallery-caption"><strong>Form & Feeling</strong><span>Design study</span></div>
+        </article>
+
+        <article class="gallery-item reveal" data-category="type">
+          <div class="gallery-art type">
+            <span class="art-label mono">TYPE STUDY / 002</span>
+            <span class="gallery-big-type">LESS<br>BUT<br>BETTER<span class="period">.</span></span>
+            <span class="art-bottom mono">TYPOGRAPHIC EXPERIMENT</span>
+          </div>
+          <div class="gallery-caption"><strong>Less, but better</strong><span>Typography</span></div>
+        </article>
+
+        <article class="gallery-item reveal" data-category="experiments">
+          <div class="gallery-art photo">
+            <span class="art-label mono">FORM STUDY / 003</span>
+            <span class="gallery-big-type">ANOTHER<br>ANGLE.</span>
+            <span class="art-bottom mono">SHAPE / SPACE / LIGHT</span>
+          </div>
+          <div class="gallery-caption"><strong>Another angle</strong><span>Experiment</span></div>
+        </article>
+
+        <article class="gallery-item reveal" data-category="design">
+          <div class="gallery-art collage">
+            <span class="art-label mono">COLLAGE STUDY / 004</span>
+            <span class="gallery-big-type">MAKE<br>ROOM<br>FOR IDEAS.</span>
+            <span class="art-bottom mono">VISUAL NOTES</span>
+          </div>
+          <div class="gallery-caption"><strong>Make room</strong><span>Collage study</span></div>
+        </article>
+      </div>
+
+      <p class="gallery-note mono">VISUAL STUDIES / KONSEPT ÇALIŞMALARI — KENDİ İŞLERİNİ EKLEDİKÇE BU ALANI GÜNCELLEYEBİLİRSİN.</p>
+    </section>
+
+    <!-- JOURNAL -->
+    <section class="page-pad section-pad" id="journal">
+      <div class="section-heading reveal">
+        <div>
+          <span class="mono section-number">04 / NOTES & IDEAS</span>
+          <h2>Journal<span class="period">.</span></h2>
+        </div>
+        <p class="section-aside">Aklımda kalanlar.<br>Üzerine düşündüklerim.</p>
+      </div>
+
+      <div class="journal-list reveal">
+        <details class="journal-entry">
+          <summary class="journal-summary">
+            <span class="journal-date">NOTE / 001</span>
+            <span><span class="journal-title">Bir markayı marka yapan ne?</span><span class="journal-meta">Branding · Görsel kimlik · Algı</span></span>
+            <span class="journal-plus">+</span>
+          </summary>
+          <div class="journal-body">
+            <p>Bir logo, bir renk paleti ya da iyi tasarlanmış bir web sitesi tek başına marka yaratmaz. Bunlar, markanın kendini ifade etme biçiminin parçalarıdır.</p>
+            <p>Asıl mesele, insanların o markayla karşılaştığında ne hissettiği ve onu neden hatırladığıdır. Görsel kimlik dikkat çeker; tutarlılık ve deneyim ise zaman içinde anlam oluşturur.</p>
+            <p>Bu yüzden tasarıma yalnızca estetik bir karar olarak değil, bir iletişim biçimi olarak bakmak gerekiyor.</p>
+          </div>
+        </details>
+
+        <details class="journal-entry">
+          <summary class="journal-summary">
+            <span class="journal-date">NOTE / 002</span>
+            <span><span class="journal-title">İnternette kendine ait bir alan kurmak</span><span class="journal-meta">Digital culture · Personal archive</span></span>
+            <span class="journal-plus">+</span>
+          </summary>
+          <div class="journal-body">
+            <p>Sosyal medya profilleri çoğu zaman bizi başkalarının belirlediği formatlara sokuyor. Her şey hızlı tüketilmeye, ölçülmeye ve bir sonraki gönderiye hazırlanıyor.</p>
+            <p>Kişisel bir web sitesi ise daha farklı bir alan sunabilir. Burada bir algoritmanın istediği biçimde değil, kendi ilgilerinin ve üretimlerinin etrafında bir dünya kurabilirsin.</p>
+            <p>Benim için bu site, tamamlanmış bir vitrinden çok zaman içinde değişen bir kişisel arşiv fikri.</p>
+          </div>
+        </details>
+
+        <details class="journal-entry">
+          <summary class="journal-summary">
+            <span class="journal-date">NOTE / 003</span>
+            <span><span class="journal-title">Fikir üretmek ve harekete geçmek</span><span class="journal-meta">Creativity · Process</span></span>
+            <span class="journal-plus">+</span>
+          </summary>
+          <div class="journal-body">
+            <p>Bir fikrin zihinde kusursuz görünmesi, gerçek hayatta da öyle olacağı anlamına gelmez. Bazen fikri anlamanın tek yolu onu küçük bir ölçekte denemektir.</p>
+            <p>İlk taslak, ilk prototip veya ilk deneme nihai sonuç olmak zorunda değil. Görevi, bir sonraki kararı verebilmek için yeterli bilgi üretmek.</p>
+            <p>Üretim sürecinde ilerlemek, her zaman daha fazla düşünmekten değil, düşünceyi test edilebilir bir şeye dönüştürmekten geçebilir.</p>
+          </div>
+        </details>
+      </div>
+
+      <p class="journal-footnote">PERSONAL NOTES — BU YAZILARI İSTEDİĞİNDE KENDİ FİKİRLERİNLE DEĞİŞTİREBİLİRSİN.</p>
+    </section>
+
+    <!-- SOUNDS -->
+    <section class="page-pad section-pad" id="sounds">
+      <div class="section-heading reveal">
+        <div>
+          <span class="mono section-number">05 / MUSIC & SOUND</span>
+          <h2>Sounds<span class="period">.</span></h2>
+        </div>
+        <p class="section-aside">Sesler, sözler<br>ve müzikal fikirler.</p>
+      </div>
+
+      <p class="sounds-intro reveal">Bazen bir fikir kelimelerle değil, seslerle kendini anlatır.</p>
+
+      <div class="sounds-grid">
+        <article class="sound-card reveal">
+          <div class="sound-top mono"><span>ARCHIVE / 001</span><span>01</span></div>
+          <div class="sound-art"><span>PLAY.</span></div>
+          <h3>My Music</h3>
+          <p>Kendi müzik üretimlerin ve üzerinde çalıştığın parçalar için bir alan.</p>
+          <a class="sound-link" href="#contact">Müzik hakkında konuş ↗</a>
+        </article>
+
+        <article class="sound-card reveal">
+          <div class="sound-top mono"><span>WRITING / 002</span><span>02</span></div>
+          <div class="sound-art"><span>LYRICS</span></div>
+          <h3>Lyrics & Notes</h3>
+          <p>Şarkı sözleri, yarım kalmış dizeler ve müzikal fikirler için kişisel defter.</p>
+          <a class="sound-link" href="#journal">Journal'a git ↗</a>
+        </article>
+
+        <article class="sound-card reveal">
+          <div class="sound-top mono"><span>ROTATION / 003</span><span>03</span></div>
+          <div class="sound-art"><span>ON REPEAT</span></div>
+          <h3>Currently Listening</h3>
+          <p>O sıralar dinlediğin albümler, sanatçılar ve ilham aldığın sesler.</p>
+          <a class="sound-link" href="#contact">Öneri gönder ↗</a>
+        </article>
+      </div>
+
+      <div class="sounds-bottom mono">
+        <span>SOUND IS ALSO A FORM OF DESIGN.</span>
+        <span>PLAY IT YOUR WAY.</span>
+      </div>
+    </section>
+
     <!-- CONTACT -->
     <section class="contact page-pad section-pad" id="contact">
-      <span class="mono section-number reveal">03 / GET IN TOUCH</span>
+      <span class="mono section-number reveal">06 / GET IN TOUCH</span>
+      <p class="contact-intro reveal">Güzel fikirler<br>tek başına kalmasın.</p>
 
-      <p class="contact-intro reveal">
-        Güzel fikirler<br>tek başına kalmasın.
-      </p>
-
-      <a href="mailto:BURAK_EMAIL_ADRESIN"
-         class="contact-main reveal" id="email-link">
-        BİR ŞEY<br>
-        <span>YAPALIM.</span>
-        <span class="contact-arrow">↗</span>
+      <a href="mailto:burakkurnaz758@gmail.com" class="contact-main reveal" id="email-link">
+        BİR ŞEY<br><span>YAPALIM.</span><span class="contact-arrow">↗</span>
       </a>
 
       <div class="contact-bottom">
         <p class="mono">BİR FİKRİN, PROJEN VEYA SELAMIN VARSA</p>
-
         <div class="social-links">
-          <a href="mailto:BURAK_EMAIL_ADRESIN" id="email-text">
-            E-POSTA ↗
-          </a>
-          <a href="https://www.instagram.com/"
-             id="instagram-link"
-             target="_blank" rel="noopener noreferrer">
-            INSTAGRAM ↗
-          </a>
-          <a href="https://www.linkedin.com/"
-             id="linkedin-link"
-             target="_blank" rel="noopener noreferrer">
-            LINKEDIN ↗
-          </a>
+          <a href="mailto:burakkurnaz758@gmail.com" id="email-text">E-POSTA ↗</a>
+          <a href="https://www.instagram.com/burak_kurnz/" id="instagram-link" target="_blank" rel="noopener noreferrer">INSTAGRAM ↗</a>
+          <a href="https://www.linkedin.com/in/burak-kurnaz-4797a227b/" id="linkedin-link" target="_blank" rel="noopener noreferrer">LINKEDIN ↗</a>
         </div>
       </div>
     </section>
@@ -265,6 +666,111 @@
     <span>MADE WITH CURIOSITY.</span>
     <a href="#home">BAŞA DÖN ↑</a>
   </footer>
+
+  <script>
+    (() => {
+      "use strict";
+
+      // FOOTER YILI
+      const yearElement = document.getElementById("year");
+      if (yearElement) yearElement.textContent = new Date().getFullYear();
+
+      // TÜRKİYE SAATİ
+      const clockElement = document.getElementById("clock");
+
+      function updateClock() {
+        if (!clockElement) return;
+        clockElement.textContent = new Intl.DateTimeFormat("tr-TR", {
+          timeZone: "Europe/Istanbul",
+          hour: "2-digit",
+          minute: "2-digit"
+        }).format(new Date());
+      }
+
+      updateClock();
+      setInterval(updateClock, 30000);
+
+      // MOBİL MENÜ
+      const menuToggle = document.querySelector(".menu-toggle");
+      const navigation = document.querySelector(".navigation");
+
+      function closeMenu() {
+        if (!menuToggle || !navigation) return;
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Menüyü aç");
+        navigation.classList.remove("open");
+        document.body.classList.remove("menu-open");
+      }
+
+      if (menuToggle && navigation) {
+        menuToggle.addEventListener("click", () => {
+          const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+          menuToggle.setAttribute("aria-expanded", String(!isOpen));
+          menuToggle.setAttribute("aria-label", isOpen ? "Menüyü aç" : "Menüyü kapat");
+          navigation.classList.toggle("open", !isOpen);
+          document.body.classList.toggle("menu-open", !isOpen);
+        });
+
+        navigation.querySelectorAll("a").forEach(link => {
+          link.addEventListener("click", closeMenu);
+        });
+
+        document.addEventListener("keydown", event => {
+          if (event.key === "Escape") closeMenu();
+        });
+
+        window.addEventListener("resize", () => {
+          if (window.innerWidth > 700) closeMenu();
+        });
+      }
+
+      // GALLERY FİLTRELERİ
+      const filterButtons = document.querySelectorAll("[data-filter]");
+      const galleryItems = document.querySelectorAll(".gallery-item");
+
+      filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          const filter = button.dataset.filter;
+
+          filterButtons.forEach(item => {
+            const active = item === button;
+            item.classList.toggle("active", active);
+            item.setAttribute("aria-pressed", String(active));
+          });
+
+          galleryItems.forEach(item => {
+            const matches = filter === "all" || item.dataset.category === filter;
+            item.hidden = !matches;
+          });
+        });
+      });
+
+      // SCROLL REVEAL
+      const revealElements = document.querySelectorAll(".reveal");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+        revealElements.forEach(element => element.classList.add("visible"));
+      } else {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.12,
+          rootMargin: "0px 0px -35px 0px"
+        });
+
+        revealElements.forEach(element => revealObserver.observe(element));
+      }
+
+      // Bu sınıf en sonda eklenir: JS hata verirse içerik gizlenmez.
+      document.documentElement.classList.add("js-enabled");
+    })();
+  </script>
 </body>
 </html>
-
+```
