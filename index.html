@@ -1,658 +1,687 @@
+
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f3f1eb">
 
-    <title>Burak Kurnaz — Yaratıcı / Pazarlama / Medya</title>
+  <meta name="description" content="Burak Kurnaz — Tasarım, yaratıcı projeler ve fikirler.">
+  <title>Burak Kurnaz® — Personal Index</title>
 
-    <meta
-        name="description"
-        content="Burak Kurnaz — Medya ve İletişim öğrencisi. Markalaşma, dijital pazarlama, yaratıcı projeler ve girişimcilik üzerine çalışıyor."
-    >
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    :root {
+      --paper: #f3f1eb;
+      --ink: #151515;
+      --muted: #77766f;
+      --line: #c9c7bf;
+      --acid: #d6ff38;
+      --mono: "DM Mono", monospace;
+      --display: "Space Grotesk", sans-serif;
+      --pad: clamp(20px, 5vw, 76px);
+    }
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+    * { box-sizing: border-box; }
 
-    <link rel="stylesheet" href="style.css">
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--display);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    a:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 5px;
+    }
+
+    ::selection {
+      background: var(--acid);
+      color: var(--ink);
+    }
+
+    .wrap {
+      width: min(100%, 1800px);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    .mono {
+      font: 11px/1.6 var(--mono);
+      text-transform: uppercase;
+      letter-spacing: .035em;
+    }
+
+    .topbar {
+      min-height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--ink);
+      gap: 20px;
+    }
+
+    .brand {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -.06em;
+    }
+
+    .nav {
+      display: flex;
+      gap: clamp(14px, 3vw, 36px);
+    }
+
+    .nav a {
+      font: 10px var(--mono);
+      text-transform: uppercase;
+    }
+
+    .nav a:hover { text-decoration: underline; }
+
+    .hero {
+      padding: clamp(55px, 11vw, 150px) 0 45px;
+    }
+
+    .eyebrow {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 26px;
+    }
+
+    .hero h1 {
+      font-size: clamp(64px, 15.2vw, 218px);
+      letter-spacing: -.105em;
+      line-height: .77;
+      margin: 0 0 38px -.065em;
+      font-weight: 700;
+    }
+
+    .hero h1 span {
+      display: block;
+    }
+
+    .hero h1 .second {
+      text-align: right;
+      padding-right: .015em;
+    }
+
+    .hero-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      gap: 28px;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 30px;
+    }
+
+    .intro {
+      max-width: 460px;
+      font-size: clamp(18px, 2.3vw, 29px);
+      line-height: 1.2;
+      letter-spacing: -.055em;
+      margin: 0;
+    }
+
+    .intro em {
+      font-style: normal;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    .hero-note {
+      justify-self: end;
+      max-width: 230px;
+      color: var(--muted);
+    }
+
+    .section {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--ink);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 35px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(36px, 6vw, 76px);
+      line-height: .95;
+      letter-spacing: -.085em;
+    }
+
+    .section-index { color: var(--muted); }
+
+    .project {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--line);
+      padding: 24px 0;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .project:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .project-visual {
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      background: #171717;
+      color: var(--paper);
+      padding: 25px;
+    }
+
+    .project-visual.light {
+      background: #e3e0d8;
+      color: var(--ink);
+    }
+
+    .project-visual.acid {
+      background: var(--acid);
+      color: var(--ink);
+    }
+
+    .visual-word {
+      font-size: clamp(45px, 8vw, 100px);
+      line-height: .8;
+      letter-spacing: -.1em;
+      font-weight: 700;
+      text-align: center;
+      transition: transform .35s ease;
+    }
+
+    .project:hover .visual-word {
+      transform: rotate(-5deg) scale(1.06);
+    }
+
+    .visual-stamp {
+      position: absolute;
+      left: 16px;
+      top: 15px;
+      font: 10px var(--mono);
+    }
+
+    .visual-number {
+      position: absolute;
+      right: 16px;
+      bottom: 12px;
+      font: 10px var(--mono);
+    }
+
+    .project-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .project-type {
+      font: 10px var(--mono);
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 15px;
+    }
+
+    .project-info h3 {
+      margin: 0 0 12px;
+      font-size: clamp(30px, 4.5vw, 57px);
+      letter-spacing: -.08em;
+      line-height: .95;
+    }
+
+    .project-info p {
+      max-width: 340px;
+      font-size: 14px;
+      line-height: 1.65;
+      color: #5c5b55;
+      margin: 0 0 22px;
+    }
+
+    .project-link {
+      font: 10px var(--mono);
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 5px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .about-big {
+      font-size: clamp(32px, 5.4vw, 69px);
+      line-height: .98;
+      letter-spacing: -.075em;
+      margin: 0;
+    }
+
+    .about-copy {
+      max-width: 430px;
+      font-size: 15px;
+      line-height: 1.85;
+      color: #57564f;
+    }
+
+    .about-copy p:first-child { margin-top: 0; }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 26px;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      padding: 8px 11px;
+      border-radius: 99px;
+      font: 10px var(--mono);
+      text-transform: uppercase;
+    }
+
+    .contact {
+      padding: 90px 0 70px;
+    }
+
+    .contact-label { margin-bottom: 25px; }
+
+    .contact h2 {
+      font-size: clamp(48px, 11.5vw, 155px);
+      line-height: .83;
+      letter-spacing: -.105em;
+      margin: 0 0 38px -.055em;
+    }
+
+    .contact h2 span {
+      display: block;
+      text-align: right;
+    }
+
+    .contact-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 22px 0;
+      border-top: 1px solid var(--ink);
+    }
+
+    .email-link {
+      font-size: clamp(17px, 3vw, 29px);
+      letter-spacing: -.05em;
+      overflow-wrap: anywhere;
+    }
+
+    .circle-arrow {
+      width: 45px;
+      height: 45px;
+      border: 1px solid var(--ink);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-size: 20px;
+      transition: background .2s, color .2s;
+    }
+
+    .contact-row:hover .circle-arrow {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    footer {
+      border-top: 1px solid var(--ink);
+      padding: 20px 0 26px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: var(--muted);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 650px) {
+      :root { --pad: 20px; }
+
+      .topbar {
+        min-height: 60px;
+        align-items: flex-start;
+        padding: 18px 0;
+      }
+
+      .nav { gap: 12px; }
+      .nav a { font-size: 9px; }
+
+      .hero { padding-top: 72px; }
+      .hero h1 { font-size: clamp(59px, 15vw, 100px); }
+
+      .hero-bottom,
+      .about-grid,
+      .project {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-note { justify-self: start; }
+      .section { padding: 60px 0; }
+      .project { gap: 20px; }
+      .project-visual { min-height: 210px; }
+      .contact { padding-top: 65px; }
+
+      footer {
+        flex-direction: column;
+        gap: 6px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="wrap">
 
-    <!-- CURSOR -->
+    <header class="topbar">
+      <a class="brand" href="#home">BK®</a>
 
-    <div class="cursor"></div>
+      <nav class="nav" aria-label="Ana navigasyon">
+        <a href="#projects">İşler</a>
+        <a href="#about">Hakkımda</a>
+        <a href="#contact">İletişim ↗</a>
+      </nav>
 
-
-    <!-- NAVIGATION -->
-
-    <header class="navbar">
-
-        <a href="#top" class="logo">
-            BURAK KURNAZ<span>®</span>
-        </a>
-
-        <nav>
-            <a href="#work">İŞLER</a>
-            <a href="#about">HAKKIMDA</a>
-            <a href="#contact">İLETİŞİM</a>
-        </nav>
-
-        <div class="availability">
-            <span class="status-dot"></span>
-            YENİ FİKİRLERE AÇIĞIM
-        </div>
-
+      <span class="mono" id="clock">TR / LOCAL</span>
     </header>
 
-
-    <main id="top">
-
-
-        <!-- =========================================
-             HERO
-        ========================================== -->
-
-        <section class="hero">
-
-            <div class="hero-meta">
-                <span>01 / 06</span>
-                <span>KİŞİSEL PORTFOLYO</span>
-            </div>
-
-
-            <div class="hero-content">
-
-                <p class="eyebrow">
-                    MERHABA, BEN BURAK.
-                </p>
-
-
-                <h1>
-
-                    FİKİRLERİ
-
-                    <span>MARKALARA,</span>
-
-                    <span>PROJELERE &</span>
-
-                    <span>DENEYİMLERE DÖNÜŞTÜRÜYORUM.</span>
-
-                </h1>
-
-
-                <div class="hero-bottom">
-
-                    <p>
-                        Medya, iletişim, dijital pazarlama,
-                        markalaşma ve yaratıcı projeler
-                        üzerine çalışan bir öğrenci ve üreticiyim.
-                    </p>
-
-
-                    <a href="#work" class="scroll-link">
-
-                        PROJELERİ KEŞFET
-
-                        <span>↓</span>
-
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <div class="hero-location">
-                TÜRKİYE — 2026
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             ABOUT
-        ========================================== -->
-
-        <section class="section about" id="about">
-
-            <div class="section-number">
-                02 — HAKKIMDA
-            </div>
-
-
-            <div class="about-grid">
-
-
-                <h2>
-
-                    MERAKLIYIM.
-
-                    <span>ÜRETİYORUM.</span>
-
-                </h2>
-
-
-                <div class="about-copy">
-
-
-                    <p class="large-copy">
-
-                        Medya ve İletişim öğrencisiyim.
-                        Yaratıcılık, teknoloji ve
-                        girişimciliğin kesiştiği yerde
-                        üretmeyi seviyorum.
-
-                    </p>
-
-
-                    <p>
-
-                        Bir fikrin sadece fikir olarak kalmasından
-                        pek hoşlanmıyorum. Aklıma gelen şeyi
-                        mümkün olduğunca gerçek bir şeye
-                        dönüştürmeye çalışıyorum.
-
-                    </p>
-
-
-                    <p style="margin-top: 20px;">
-
-                        Bazen bir marka, bazen bir iş modeli,
-                        bazen bir film, bazen de sadece
-                        denemek istediğim bir fikir.
-
-                        Öğrenirken üretmeyi,
-                        ürettikçe öğrenmeyi seviyorum.
-
-                    </p>
-
-
-                    <div class="about-data">
-
-
-                        <div>
-
-                            <span>EĞİTİM</span>
-
-                            <strong>
-                                MEDYA VE İLETİŞİM
-                            </strong>
-
-                        </div>
-
-
-                        <div>
-
-                            <span>ODAK</span>
-
-                            <strong>
-                                MARKALAMA / PAZARLAMA / DİJİTAL
-                            </strong>
-
-                        </div>
-
-
-                        <div>
-
-                            <span>İLGİ ALANLARI</span>
-
-                            <strong>
-                                TASARIM / MEDYA / GİRİŞİMCİLİK
-                            </strong>
-
-                        </div>
-
-
-                        <div>
-
-                            <span>YAKLAŞIM</span>
-
-                            <strong>
-                                ÖĞREN / ÜRET / DENE
-                            </strong>
-
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             WORK
-        ========================================== -->
-
-        <section class="section work" id="work">
-
-
-            <div class="section-number">
-                03 — PROJELER
-            </div>
-
-
-            <div class="work-header">
-
-
-                <h2>
-
-                    ÜRETTİĞİM
-
-                    <br>
-
-                    <span>ŞEYLER.</span>
-
-                </h2>
-
-
-                <p>
-
-                    Üzerinde çalıştığım markalar,
-                    yaratıcı projeler, fikirler ve
-                    deneyler.
-
-                </p>
-
-            </div>
-
-
-
-            <div class="projects">
-
-
-                <!-- LUVISYU -->
-
-                <article class="project">
-
-
-                    <div class="project-visual project-one">
-
-                        <span>01</span>
-
-                    </div>
-
-
-                    <div class="project-info">
-
-
-                        <div>
-
-                            <h3>LUVISYU</h3>
-
-                            <p>
-                                E-TİCARET / MARKA / PAZARLAMA
-                            </p>
-
-                        </div>
-
-
-                        <span class="project-arrow">
-                            ↗
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- FLOIDO -->
-
-                <article class="project">
-
-
-                    <div class="project-visual project-two">
-
-                        <span>02</span>
-
-                    </div>
-
-
-                    <div class="project-info">
-
-
-                        <div>
-
-                            <h3>FLOIDO</h3>
-
-                            <p>
-                                YARATICI STÜDYO / MARKA / MÜZİK
-                            </p>
-
-                        </div>
-
-
-                        <span class="project-arrow">
-                            ↗
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- ZERO POINT -->
-
-                <article class="project">
-
-
-                    <div class="project-visual project-three">
-
-                        <span>03</span>
-
-                    </div>
-
-
-                    <div class="project-info">
-
-
-                        <div>
-
-                            <h3>ZERO POINT</h3>
-
-                            <p>
-                                KISA FİLM / GÖRSEL HİKÂYE ANLATIMI
-                            </p>
-
-                        </div>
-
-
-                        <span class="project-arrow">
-                            ↗
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- EXPERIMENTS -->
-
-                <article class="project">
-
-
-                    <div class="project-visual project-four">
-
-                        <span>04</span>
-
-                    </div>
-
-
-                    <div class="project-info">
-
-
-                        <div>
-
-                            <h3>DENEYLER</h3>
-
-                            <p>
-                                FİKİRLER / GÖRSELLER / DİJİTAL
-                            </p>
-
-                        </div>
-
-
-                        <span class="project-arrow">
-                            ↗
-                        </span>
-
-                    </div>
-
-                </article>
-
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             WHAT I DO
-        ========================================== -->
-
-        <section class="section services">
-
-
-            <div class="section-number">
-                04 — NE YAPIYORUM
-            </div>
-
-
-            <div class="services-list">
-
-
-                <div class="service">
-
-                    <span>01</span>
-
-                    <h3>
-                        MARKA GELİŞTİRME
-                    </h3>
-
-                </div>
-
-
-                <div class="service">
-
-                    <span>02</span>
-
-                    <h3>
-                        DİJİTAL PAZARLAMA
-                    </h3>
-
-                </div>
-
-
-                <div class="service">
-
-                    <span>03</span>
-
-                    <h3>
-                        İÇERİK & SOSYAL MEDYA
-                    </h3>
-
-                </div>
-
-
-                <div class="service">
-
-                    <span>04</span>
-
-                    <h3>
-                        E-TİCARET
-                    </h3>
-
-                </div>
-
-
-                <div class="service">
-
-                    <span>05</span>
-
-                    <h3>
-                        YARATICI YÖNETİM
-                    </h3>
-
-                </div>
-
-
-                <div class="service">
-
-                    <span>06</span>
-
-                    <h3>
-                        GÖRSEL İLETİŞİM
-                    </h3>
-
-                </div>
-
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================================
-             CURRENTLY
-        ========================================== -->
-
-        <section class="section currently">
-
-
-            <div class="section-number">
-                05 — ŞU AN
-            </div>
-
-
-            <h2>
-
-                ÖĞRENİYORUM.
-
-                <br>
-
-                ÜRETİYORUM.
-
-                <br>
-
-                <span>DENİYORUM.</span>
-
-            </h2>
-
+    <main>
+      <section class="hero" id="home">
+        <div class="eyebrow mono">
+          <span>Bağımsız yaratıcı / Türkiye</span>
+          <span>Personal index — 001</span>
+        </div>
+
+        <h1>
+          <span>BURAK</span>
+          <span class="second">KURNAZ<span style="display:inline">®</span></span>
+        </h1>
+
+        <div class="hero-bottom">
+          <p class="intro">
+            Fikirlerin, görsellerin ve
+            <em>başka türlü düşünmenin</em>
+            peşinde.
+          </p>
+
+          <p class="hero-note mono">
+            TASARIM / MARKA / DİJİTAL KÜLTÜR<br>
+            Farklı disiplinler. Ortak bir merak.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="projects">
+        <div class="section-head">
+          <h2>Seçilmiş işler<span style="color:#aaa">.</span></h2>
+          <span class="section-index mono">01 — PROJELER</span>
+        </div>
+
+        <article class="project reveal">
+          <div class="project-visual">
+            <span class="visual-stamp">01 / BRAND WORLD</span>
+            <span class="visual-word">LUVISYU</span>
+            <span class="visual-number">BRAND — 2026</span>
+          </div>
+
+          <div class="project-info">
+            <span class="project-type">E-ticaret / Marka geliştirme</span>
+            <h3>Luvisyu.</h3>
+            <p>
+              Marka kimliği, dijital mağaza deneyimi ve
+              ürünlerin etrafında tutarlı bir dünya kurma
+              üzerine devam eden bir çalışma.
+            </p>
+            <a class="project-link" href="https://luvisyu.com"
+               target="_blank" rel="noopener noreferrer">
+              Projeyi incele ↗
+            </a>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <div class="project-visual light">
+            <span class="visual-stamp">02 / CREATIVE PRACTICE</span>
+            <span class="visual-word">FLOIDO®</span>
+            <span class="visual-number">ART × TECH</span>
+          </div>
+
+          <div class="project-info">
+            <span class="project-type">Yaratıcı stüdyo / Tasarım</span>
+            <h3>Floido.</h3>
+            <p>
+              Görsel tasarım, müzik ve pazarlamanın
+              kesişiminde şekillenen yaratıcı stüdyo
+              fikri. Henüz gelişmekte olan bir alan.
+            </p>
+            <a class="project-link" href="#contact">
+              Proje hakkında konuş ↗
+            </a>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <div class="project-visual acid">
+            <span class="visual-stamp">03 / OPEN EXPERIMENT</span>
+            <span class="visual-word">WHAT IF?</span>
+            <span class="visual-number">IDEAS IN PROGRESS</span>
+          </div>
+
+          <div class="project-info">
+            <span class="project-type">Deneyler / Fikirler</span>
+            <h3>Henüz adı yok.</h3>
+            <p>
+              Dijital kültür, iletişim, yapay zekâ ve
+              insanların dikkatini çeken fikirler.
+              Bazıları proje olur, bazıları olmaz.
+            </p>
+            <a class="project-link" href="#contact">
+              Bir fikir paylaş ↗
+            </a>
+          </div>
+        </article>
+      </section>
+
+      <section class="section" id="about">
+        <div class="section-head">
+          <h2>Biraz ben.</h2>
+          <span class="section-index mono">02 — HAKKIMDA</span>
+        </div>
+
+        <div class="about-grid reveal">
+          <p class="about-big">
+            Her şeyin bir
+            <span style="text-decoration:underline;
+                         text-decoration-thickness:2px;
+                         text-underline-offset:7px">
+              başka yolu
+            </span>
+            olduğunu düşünüyorum.
+          </p>
+
+          <div class="about-copy">
+            <p>
+              Ben Burak. Tasarım, marka oluşturma,
+              dijital iletişim ve yaratıcı fikirlerle
+              ilgileniyorum.
+            </p>
+            <p>
+              Beni heyecanlandıran şey yalnızca bir
+              şeyin nasıl göründüğü değil; neden öyle
+              olduğu, insanlarda ne hissettirdiği ve
+              nasıl daha farklı yapılabileceği.
+            </p>
+            <p>
+              Bu site tamamlanmış bir başarı hikâyesi
+              değil. Ürettiklerimin, öğrendiklerimin ve
+              denemeye değer bulduğum şeylerin yaşayan
+              bir arşivi.
+            </p>
 
             <div class="tags">
-
-
-                <span>
-                    MEDYA & İLETİŞİM
-                </span>
-
-
-                <span>
-                    DİJİTAL PAZARLAMA
-                </span>
-
-
-                <span>
-                    MARKALAŞMA
-                </span>
-
-
-                <span>
-                    GİRİŞİMCİLİK
-                </span>
-
-
-                <span>
-                    YARATICI TEKNOLOJİ
-                </span>
-
-
-                <span>
-                    MIT
-                </span>
-
-
+              <span class="tag">Art direction</span>
+              <span class="tag">Branding</span>
+              <span class="tag">Digital culture</span>
+              <span class="tag">Ideas</span>
+              <span class="tag">Music</span>
             </div>
+          </div>
+        </div>
+      </section>
 
-        </section>
+      <section class="contact" id="contact">
+        <div class="contact-label mono">03 — İLETİŞİM / AÇIK ÇAĞRI</div>
 
+        <h2>
+          BİR ŞEY
+          <span>YAPALIM.</span>
+        </h2>
 
+        <a class="contact-row" id="emailLink" href="mailto:">
+          <span>
+            <span class="mono" style="display:block;
+                  margin-bottom:8px">Bir fikrin mi var?</span>
+            <span class="email-link" id="emailText">
+              E-posta adresini ekle
+            </span>
+          </span>
+          <span class="circle-arrow" aria-hidden="true">↗</span>
+        </a>
 
-        <!-- =========================================
-             CONTACT
-        ========================================== -->
-
-        <section class="section contact" id="contact">
-
-
-            <div class="section-number">
-                06 — İLETİŞİM
-            </div>
-
-
-            <h2>
-
-                BİR
-
-                <br>
-
-                <span>FİKRİN Mİ VAR?</span>
-
-            </h2>
-
-
-            <div class="contact-links">
-
-
-                <a href="#" target="_blank">
-                    INSTAGRAM ↗
-                </a>
-
-
-                <a href="#" target="_blank">
-                    LINKEDIN ↗
-                </a>
-
-
-                <a href="mailto:hello@example.com">
-                    E-POSTA ↗
-                </a>
-
-
-            </div>
-
-        </section>
-
-
+        <a class="contact-row" id="instagramLink"
+           href="https://www.instagram.com/"
+           target="_blank" rel="noopener noreferrer">
+          <span>
+            <span class="mono" style="display:block;
+                  margin-bottom:8px">Dijital tarafta</span>
+            <span class="email-link">Instagram ↗</span>
+          </span>
+          <span class="circle-arrow" aria-hidden="true">↗</span>
+        </a>
+      </section>
     </main>
 
-
-
-    <!-- =========================================
-         FOOTER
-    ========================================== -->
-
-    <footer>
-
-
-        <span>
-            BURAK KURNAZ®
-        </span>
-
-
-        <span>
-            © 2026 — TÜM HAKLARI SAKLIDIR
-        </span>
-
-
-        <span>
-            TÜRKİYE
-        </span>
-
-
+    <footer class="mono">
+      <span>© <span id="year"></span> BURAK KURNAZ</span>
+      <span>MADE WITH CURIOSITY, NOT A TEMPLATE.</span>
+      <a href="#home">BAŞA DÖN ↑</a>
     </footer>
 
+  </div>
 
+  <script>
+    // KİŞİSEL BİLGİLERİNİ BURADAN DÜZENLE
+    const CONFIG = {
+      email: "EPOSTA_ADRESINI_BURAYA_YAZ",
+      instagram: "INSTAGRAM_KULLANICI_ADIN"
+    };
 
-    <script src="script.js"></script>
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
 
+    // Saat göstergesi
+    function updateClock() {
+      document.getElementById("clock").textContent =
+        new Intl.DateTimeFormat("tr-TR", {
+          timeZone: "Europe/Istanbul",
+          hour: "2-digit",
+          minute: "2-digit"
+        }).format(new Date()) + " / TR";
+    }
+
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    // Gerçek e-posta adresini yazdıysan bağlantıyı etkinleştir
+    if (
+      CONFIG.email &&
+      CONFIG.email !== "EPOSTA_ADRESINI_BURAYA_YAZ"
+    ) {
+      document.getElementById("emailText").textContent =
+        CONFIG.email;
+      document.getElementById("emailLink").href =
+        "mailto:" + CONFIG.email;
+    } else {
+      document.getElementById("emailLink").href = "#contact";
+    }
+
+    // Instagram kullanıcı adını kendine göre değiştir
+    if (
+      CONFIG.instagram &&
+      CONFIG.instagram !== "INSTAGRAM_KULLANICI_ADIN"
+    ) {
+      document.getElementById("instagramLink").href =
+        "https://www.instagram.com/" +
+        CONFIG.instagram.replace(/^@/, "") + "/";
+    }
+
+    // Kaydırma sırasında içeriklerin görünmesi
+    const items = document.querySelectorAll(".reveal");
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      items.forEach((item) => observer.observe(item));
+    } else {
+      items.forEach((item) => item.classList.add("visible"));
+    }
+  </script>
 </body>
-
 </html>
